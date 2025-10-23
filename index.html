@@ -426,6 +426,27 @@
                             </div>
                         </div>
                         
+                        <div class="bg-white p-8 rounded-2xl shadow-xl mb-8">
+                            <h3 class="text-2xl font-bold mb-6 text-gray-800">Lokasi & Kontak Cepat</h3>
+
+                            <!-- Map -->
+                            <div class="mb-6">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.0984567890123!2d110.3667!3d-7.7956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a5787e7b1b1b1%3A0x1234567890abcdef!2sJeruk%2C%20Kepek%2C%20Wonosari%2C%20Gunungkidul%2C%20Yogyakarta!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="rounded-lg"></iframe>
+                            </div>
+
+                            <!-- Quick Contact Buttons -->
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <button onclick="openWhatsApp()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded-lg font-semibold transition-all flex items-center justify-center space-x-3">
+                                    <span class="text-xl">💬</span>
+                                    <span>Chat WhatsApp</span>
+                                </button>
+                                <button onclick="showLiveChat()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-lg font-semibold transition-all flex items-center justify-center space-x-3">
+                                    <span class="text-xl">💬</span>
+                                    <span>Live Chat</span>
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="bg-white p-8 rounded-2xl shadow-xl">
                             <h3 class="text-2xl font-bold mb-6 text-gray-800">Kirim Pesan</h3>
                             <form onsubmit="handleContactForm(event)" class="space-y-6">
@@ -551,7 +572,6 @@
                     </button>
                 </div>
             </form>
-        </div>
     </div>
 
     <!-- Admin Panel -->
@@ -990,163 +1010,10 @@
     </div>
 
     <script>
-        // Data Storage
-        let services = [
+        // Default Data
+        const defaultServices = [
             {
                 id: 1,
-                name: "Konstruksi Gedung",
-                description: "Layanan konstruksi gedung komprehensif mulai dari perencanaan hingga penyelesaian dengan standar kualitas tinggi",
-                icon: "🏗️",
-                price: "Sesuai RAB"
-            },
-            {
-                id: 2,
-                name: "Jaringan Irigasi",
-                description: "Pembangunan dan perbaikan sistem irigasi untuk mendukung pertanian berkelanjutan",
-                icon: "🌊",
-                price: "Sesuai skala proyek"
-            },
-            {
-                id: 3,
-                name: "Konstruksi Jalan",
-                description: "Pembangunan dan perbaikan jalan dengan material berkualitas dan teknologi modern",
-                icon: "🛣️",
-                price: "Sesuai spesifikasi"
-            },
-            {
-                id: 4,
-                name: "Jasa Konsultansi",
-                description: "Konsultasi teknis konstruksi, perencanaan proyek, dan pengawasan kualitas pekerjaan",
-                icon: "📋",
-                price: "Mulai dari Rp 2.500.000"
-            }
-        ];
-
-        let portfolio = [
-            {
-                id: 1,
-                name: "Konstruksi Gedung Sekolah SDN Kepek",
-                category: "Konstruksi Gedung",
-                description: "Pembangunan gedung sekolah 6 ruang kelas dengan fasilitas pendukung lengkap sesuai standar nasional",
-                client: "Dinas Pendidikan Kabupaten Gunungkidul",
-                status: "Completed",
-                year: 2023
-            },
-            {
-                id: 2,
-                name: "Pembangunan Jaringan Irigasi Desa Jeruk",
-                category: "Jaringan Irigasi",
-                description: "Konstruksi sistem irigasi terpadu untuk mengairi lahan pertanian seluas 50 hektar",
-                client: "Dinas Pertanian Kabupaten Gunungkidul",
-                status: "Completed",
-                year: 2024
-            },
-            {
-                id: 3,
-                name: "Perbaikan Jalan Desa Wonosari - Kepek",
-                category: "Konstruksi Jalan",
-                description: "Peningkatan kualitas jalan desa dengan perkerasan beton sepanjang 2 km",
-                client: "Dinas PUPR Kabupaten Gunungkidul",
-                status: "In Progress",
-                year: 2024
-            }
-        ];
-
-        let teamMembers = [
-            {
-                id: 1,
-                name: "DEWA MAHARDIKA",
-                position: "Direktur Utama / PJBU",
-                department: "Management",
-                email: "baladika617@gmail.com",
-                bio: "Penanggung Jawab Badan Usaha CV PUTRA DEWA dengan pengalaman luas di bidang konstruksi dan pengembangan usaha"
-            },
-            {
-                id: 2,
-                name: "RONI SUPRIYANTA, S.T",
-                position: "PJTBU / Manajer Teknik",
-                department: "Teknik",
-                email: "roni.supriyanta@cvputradewa.com",
-                bio: "Penanggung Jawab Teknis Badan Usaha dengan sertifikasi F 2146 06470 2023 0086070 SI 01, spesialis dalam konstruksi dan konsultansi teknik"
-            },
-            {
-                id: 3,
-                name: "DWI YULIYANTO",
-                position: "PJSKBU Konstruksi",
-                department: "Teknik",
-                email: "dwi.yuliyanto@cvputradewa.com",
-                bio: "Penanggung Jawab Sertifikasi Keahlian Badan Usaha dengan sertifikasi F 2146 06463 2023 0086064 SI 01, ahli dalam berbagai klasifikasi konstruksi"
-            }
-        ];
-
-        let mediaFiles = [
-            {
-                id: 1,
-                name: "gedung-sekolah-kepek.jpg",
-                url: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop",
-                type: "image/jpeg",
-                size: 2048000,
-                uploadDate: "2024-01-15T10:00:00Z"
-            },
-            {
-                id: 2,
-                name: "irigasi-desa-jeruk.jpg",
-                url: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=300&fit=crop",
-                type: "image/jpeg",
-                size: 1856000,
-                uploadDate: "2024-02-20T14:30:00Z"
-            },
-            {
-                id: 3,
-                name: "jalan-wonosari-kepek.jpg",
-                url: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=400&h=300&fit=crop",
-                type: "image/jpeg",
-                size: 2234000,
-                uploadDate: "2024-03-10T09:15:00Z"
-            },
-            {
-                id: 4,
-                name: "tim-konstruksi.jpg",
-                url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=300&fit=crop",
-                type: "image/jpeg",
-                size: 1987000,
-                uploadDate: "2024-04-05T16:45:00Z"
-            },
-            {
-                id: 5,
-                name: "peralatan-konstruksi.jpg",
-                url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop",
-                type: "image/jpeg",
-                size: 2156000,
-                uploadDate: "2024-05-12T11:20:00Z"
-            },
-            {
-                id: 6,
-                name: "gedung-kesehatan.jpg",
-                url: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop",
-                type: "image/jpeg",
-                size: 1873000,
-                uploadDate: "2024-06-18T13:10:00Z"
-            },
-            {
-                id: 7,
-                name: "proyek-irigasi.jpg",
-                url: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=400&h=300&fit=crop",
-                type: "image/jpeg",
-                size: 2014000,
-                uploadDate: "2024-07-22T08:30:00Z"
-            },
-            {
-                id: 8,
-                name: "tim-survey.jpg",
-                url: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
-                type: "image/jpeg",
-                size: 1928000,
-                uploadDate: "2024-08-14T15:55:00Z"
-            }
-        ];
-        let contactMessages = [];
-        let isAdminLoggedIn = false;
 
         // Navigation Functions
         function showSection(sectionId) {
@@ -1320,6 +1187,7 @@
         function deleteService(id) {
             if (confirm('Apakah Anda yakin ingin menghapus layanan ini?')) {
                 services = services.filter(s => s.id !== id);
+                saveToStorage('services', services);
                 loadServicesTable();
                 loadServicesGrid();
                 updateAdminDashboard();
@@ -1329,7 +1197,7 @@
 
         function handleServiceSubmit(event) {
             event.preventDefault();
-            
+
             const serviceData = {
                 name: document.getElementById('service-name').value,
                 description: document.getElementById('service-description').value,
@@ -1338,7 +1206,7 @@
             };
 
             const serviceId = document.getElementById('service-id').value;
-            
+
             if (serviceId) {
                 const index = services.findIndex(s => s.id === parseInt(serviceId));
                 if (index !== -1) {
@@ -1353,7 +1221,8 @@
                 services.push(newService);
                 showToast('Layanan berhasil ditambahkan!', 'success');
             }
-            
+
+            saveToStorage('services', services);
             hideServiceModal();
             loadServicesTable();
             loadServicesGrid();
@@ -1450,6 +1319,7 @@
         function deletePortfolio(id) {
             if (confirm('Apakah Anda yakin ingin menghapus portfolio ini?')) {
                 portfolio = portfolio.filter(p => p.id !== id);
+                saveToStorage('portfolio', portfolio);
                 loadPortfolioTable();
                 loadPortfolioGrid();
                 updateAdminDashboard();
@@ -1459,7 +1329,7 @@
 
         function handlePortfolioSubmit(event) {
             event.preventDefault();
-            
+
             const portfolioData = {
                 name: document.getElementById('portfolio-name').value,
                 category: document.getElementById('portfolio-category').value,
@@ -1470,7 +1340,7 @@
             };
 
             const portfolioId = document.getElementById('portfolio-id').value;
-            
+
             if (portfolioId) {
                 const index = portfolio.findIndex(p => p.id === parseInt(portfolioId));
                 if (index !== -1) {
@@ -1485,7 +1355,8 @@
                 portfolio.push(newPortfolio);
                 showToast('Portfolio berhasil ditambahkan!', 'success');
             }
-            
+
+            saveToStorage('portfolio', portfolio);
             hidePortfolioModal();
             loadPortfolioTable();
             loadPortfolioGrid();
@@ -1575,6 +1446,7 @@
         function deleteTeam(id) {
             if (confirm('Apakah Anda yakin ingin menghapus anggota tim ini?')) {
                 teamMembers = teamMembers.filter(t => t.id !== id);
+                saveToStorage('teamMembers', teamMembers);
                 loadTeamTable();
                 loadTeamGrid();
                 updateAdminDashboard();
@@ -1584,7 +1456,7 @@
 
         function handleTeamSubmit(event) {
             event.preventDefault();
-            
+
             const teamData = {
                 name: document.getElementById('team-name').value,
                 position: document.getElementById('team-position').value,
@@ -1594,7 +1466,7 @@
             };
 
             const teamId = document.getElementById('team-id').value;
-            
+
             if (teamId) {
                 const index = teamMembers.findIndex(t => t.id === parseInt(teamId));
                 if (index !== -1) {
@@ -1609,7 +1481,8 @@
                 teamMembers.push(newTeamMember);
                 showToast('Anggota tim berhasil ditambahkan!', 'success');
             }
-            
+
+            saveToStorage('teamMembers', teamMembers);
             hideTeamModal();
             loadTeamTable();
             loadTeamGrid();
@@ -1669,7 +1542,7 @@
         // Media Management
         function handleMediaUpload(event) {
             const files = event.target.files;
-            
+
             for (let file of files) {
                 if (file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024) {
                     const reader = new FileReader();
@@ -1683,6 +1556,7 @@
                             uploadDate: new Date().toISOString()
                         };
                         mediaFiles.push(mediaFile);
+                        saveToStorage('mediaFiles', mediaFiles);
                         loadMediaGallery();
                         showToast(`File ${file.name} berhasil diupload!`, 'success');
                     };
@@ -1724,6 +1598,7 @@
         function deleteMedia(id) {
             if (confirm('Apakah Anda yakin ingin menghapus file ini?')) {
                 mediaFiles = mediaFiles.filter(f => f.id !== id);
+                saveToStorage('mediaFiles', mediaFiles);
                 loadMediaGallery();
                 showToast('File berhasil dihapus!', 'success');
             }
@@ -1775,6 +1650,7 @@
             const message = contactMessages.find(m => m.id === id);
             if (message) {
                 message.read = !message.read;
+                saveToStorage('contactMessages', contactMessages);
                 loadMessagesList();
                 updateAdminDashboard();
             }
@@ -1784,6 +1660,7 @@
             contactMessages.forEach(message => {
                 message.read = true;
             });
+            saveToStorage('contactMessages', contactMessages);
             loadMessagesList();
             showToast('Semua pesan telah ditandai sebagai dibaca', 'success');
         }
@@ -1791,6 +1668,7 @@
         function deleteMessage(id) {
             if (confirm('Apakah Anda yakin ingin menghapus pesan ini?')) {
                 contactMessages = contactMessages.filter(m => m.id !== id);
+                saveToStorage('contactMessages', contactMessages);
                 loadMessagesList();
                 updateAdminDashboard();
                 showToast('Pesan berhasil dihapus!', 'success');
@@ -1800,20 +1678,35 @@
         // Settings Management
         function handleSettingsUpdate(event) {
             event.preventDefault();
-            
+
             // Update contact display
             document.getElementById('company-address-display').textContent = document.getElementById('company-address').value;
             document.getElementById('company-phone-display').textContent = document.getElementById('company-phone').value;
             document.getElementById('company-email-display').textContent = document.getElementById('company-email').value;
             document.getElementById('company-website-display').textContent = document.getElementById('company-website').value;
-            
+
+            // Save settings to localStorage
+            const settings = {
+                companyName: document.getElementById('company-name').value,
+                companyTagline: document.getElementById('company-tagline').value,
+                companyEmail: document.getElementById('company-email').value,
+                companyPhone: document.getElementById('company-phone').value,
+                companyNIB: document.getElementById('company-nib').value,
+                companyAddress: document.getElementById('company-address').value,
+                facebookUrl: document.getElementById('facebook-url').value,
+                twitterUrl: document.getElementById('twitter-url').value,
+                linkedinUrl: document.getElementById('linkedin-url').value,
+                instagramUrl: document.getElementById('instagram-url').value
+            };
+            saveToStorage('companySettings', settings);
+
             showToast('Pengaturan berhasil disimpan!', 'success');
         }
 
         // Contact Form
         function handleContactForm(event) {
             event.preventDefault();
-            
+
             const formData = {
                 id: Date.now(),
                 name: document.getElementById('contact-name').value,
@@ -1825,13 +1718,14 @@
                 date: new Date().toISOString(),
                 read: false
             };
-            
+
             contactMessages.unshift(formData); // Add to beginning of array
+            saveToStorage('contactMessages', contactMessages);
             updateAdminDashboard();
-            
+
             // Reset form
             event.target.reset();
-            
+
             showToast('Terima kasih! Pesan Anda telah terkirim. Tim kami akan segera menghubungi Anda.', 'success');
         }
 
@@ -1854,12 +1748,55 @@
             }
         }
 
+        // WhatsApp Function
+        function openWhatsApp() {
+            const message = encodeURIComponent("Halo CV PUTRA DEWA, saya ingin mendapatkan informasi tentang layanan Anda");
+            const url = `https://wa.me/6281904118250?text=${message}`;
+            window.open(url, '_blank');
+        }
+
+        // Live Chat Modal
+        function showLiveChat() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full">
+                    <div class="p-6">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-3xl">💬</span>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Live Chat</h2>
+                            <p class="text-gray-600">Silahkan menunggu antrian, tim kami akan segera menghubungi Anda.</p>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <p class="text-sm text-blue-800">
+                                    <strong>Estimasi waktu tunggu:</strong> 2-5 menit<br>
+                                    <strong>Jam operasional:</strong> Senin-Jumat 08:00-17:00 WIB
+                                </p>
+                            </div>
+                            <div class="flex space-x-3">
+                                <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-400 transition-colors font-medium">
+                                    Tutup
+                                </button>
+                                <button onclick="openWhatsApp(); this.closest('.fixed').remove()" class="flex-1 bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-all font-medium text-center">
+                                    WhatsApp
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
         // Toast Notifications
         function showToast(message, type = 'info') {
             const toast = document.createElement('div');
             toast.className = `px-6 py-4 rounded-lg shadow-lg text-white slide-in max-w-sm ${
-                type === 'success' ? 'bg-green-600' : 
-                type === 'error' ? 'bg-red-600' : 
+                type === 'success' ? 'bg-green-600' :
+                type === 'error' ? 'bg-red-600' :
                 'bg-blue-600'
             }`;
             toast.innerHTML = `
@@ -1870,9 +1807,9 @@
                     <span class="flex-1">${message}</span>
                 </div>
             `;
-            
+
             document.getElementById('toast-container').appendChild(toast);
-            
+
             setTimeout(() => {
                 toast.remove();
             }, 5000);
@@ -1880,6 +1817,28 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            // Load settings from localStorage
+            const settings = loadFromStorage('companySettings', {});
+            if (settings.companyName) document.getElementById('company-name').value = settings.companyName;
+            if (settings.companyTagline) document.getElementById('company-tagline').value = settings.companyTagline;
+            if (settings.companyEmail) {
+                document.getElementById('company-email').value = settings.companyEmail;
+                document.getElementById('company-email-display').textContent = settings.companyEmail;
+            }
+            if (settings.companyPhone) {
+                document.getElementById('company-phone').value = settings.companyPhone;
+                document.getElementById('company-phone-display').textContent = settings.companyPhone;
+            }
+            if (settings.companyNIB) document.getElementById('company-nib').value = settings.companyNIB;
+            if (settings.companyAddress) {
+                document.getElementById('company-address').value = settings.companyAddress;
+                document.getElementById('company-address-display').textContent = settings.companyAddress;
+            }
+            if (settings.facebookUrl) document.getElementById('facebook-url').value = settings.facebookUrl;
+            if (settings.twitterUrl) document.getElementById('twitter-url').value = settings.twitterUrl;
+            if (settings.linkedinUrl) document.getElementById('linkedin-url').value = settings.linkedinUrl;
+            if (settings.instagramUrl) document.getElementById('instagram-url').value = settings.instagramUrl;
+
             showSection('home');
             loadServicesGrid();
             loadPortfolioGrid();
