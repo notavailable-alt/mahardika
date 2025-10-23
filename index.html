@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id" class="h-full">
 <head>
@@ -1014,6 +1015,120 @@
         const defaultServices = [
             {
                 id: 1,
+                name: "Konstruksi Gedung",
+                icon: "🏗️",
+                description: "Layanan konstruksi gedung komprehensif mulai dari perencanaan hingga penyelesaian dengan standar kualitas tinggi.",
+                price: "Hubungi kami"
+            },
+            {
+                id: 2,
+                name: "Jaringan Irigasi",
+                icon: "🌊",
+                description: "Pembangunan dan perbaikan sistem irigasi untuk mendukung pertanian dan pengelolaan air yang efisien.",
+                price: "Hubungi kami"
+            },
+            {
+                id: 3,
+                name: "Konstruksi Jalan",
+                icon: "🛣️",
+                description: "Pembangunan dan pemeliharaan jalan dengan teknologi modern dan material berkualitas.",
+                price: "Hubungi kami"
+            },
+            {
+                id: 4,
+                name: "Konsultansi Teknik",
+                icon: "📋",
+                description: "Layanan konsultansi teknis untuk berbagai proyek konstruksi dengan tim ahli berpengalaman.",
+                price: "Hubungi kami"
+            }
+        ];
+
+        const defaultPortfolio = [
+            {
+                id: 1,
+                name: "Pembangunan Gedung Perkantoran",
+                category: "Konstruksi Gedung",
+                description: "Proyek pembangunan gedung perkantoran 5 lantai dengan fasilitas modern di Yogyakarta.",
+                client: "PT. Maju Bersama",
+                status: "Completed",
+                year: 2023
+            },
+            {
+                id: 2,
+                name: "Sistem Irigasi Pertanian",
+                category: "Jaringan Irigasi",
+                description: "Pembangunan jaringan irigasi untuk lahan pertanian seluas 50 hektar di Gunungkidul.",
+                client: "Dinas Pertanian DIY",
+                status: "Completed",
+                year: 2023
+            },
+            {
+                id: 3,
+                name: "Perbaikan Jalan Desa",
+                category: "Konstruksi Jalan",
+                description: "Perbaikan dan peningkatan jalan desa sepanjang 2 km dengan drainase yang baik.",
+                client: "Pemerintah Desa",
+                status: "In Progress",
+                year: 2024
+            }
+        ];
+
+        const defaultTeamMembers = [
+            {
+                id: 1,
+                name: "Ahmad Putra Dewa",
+                position: "Direktur Utama",
+                department: "Management",
+                email: "ahmad@cvputradewa.com",
+                bio: "Berpengalaman lebih dari 15 tahun di bidang konstruksi dengan sertifikasi SBU dan LPJK."
+            },
+            {
+                id: 2,
+                name: "Siti Nurhaliza",
+                position: "Manajer Teknik",
+                department: "Teknik",
+                email: "siti@cvputradewa.com",
+                bio: "Ahli dalam perencanaan dan pengawasan proyek konstruksi dengan gelar Sarjana Teknik Sipil."
+            },
+            {
+                id: 3,
+                name: "Budi Santoso",
+                position: "Supervisor Lapangan",
+                department: "Operasional",
+                email: "budi@cvputradewa.com",
+                bio: "Supervisor berpengalaman dalam mengelola tim lapangan dan memastikan kualitas pekerjaan."
+            }
+        ];
+
+        const defaultMediaFiles = [];
+        const defaultContactMessages = [];
+
+        // Global Variables
+        let services = [];
+        let portfolio = [];
+        let teamMembers = [];
+        let mediaFiles = [];
+        let contactMessages = [];
+        let isAdminLoggedIn = false;
+
+        // Utility Functions
+        function loadFromStorage(key, defaultValue) {
+            try {
+                const item = localStorage.getItem(key);
+                return item ? JSON.parse(item) : defaultValue;
+            } catch (e) {
+                console.error('Error loading from localStorage:', e);
+                return defaultValue;
+            }
+        }
+
+        function saveToStorage(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+            } catch (e) {
+                console.error('Error saving to localStorage:', e);
+            }
+        }
 
         // Navigation Functions
         function showSection(sectionId) {
@@ -1817,6 +1932,13 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            // Load data from localStorage or use defaults
+            services = loadFromStorage('services', defaultServices);
+            portfolio = loadFromStorage('portfolio', defaultPortfolio);
+            teamMembers = loadFromStorage('teamMembers', defaultTeamMembers);
+            mediaFiles = loadFromStorage('mediaFiles', defaultMediaFiles);
+            contactMessages = loadFromStorage('contactMessages', defaultContactMessages);
+
             // Load settings from localStorage
             const settings = loadFromStorage('companySettings', {});
             if (settings.companyName) document.getElementById('company-name').value = settings.companyName;
